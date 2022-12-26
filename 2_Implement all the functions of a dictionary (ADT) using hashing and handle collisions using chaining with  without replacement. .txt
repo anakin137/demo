@@ -1,0 +1,59 @@
+dictionary = {0:None,1:None,2:None,3:None,4:None,5:None,6:None,7:None,8:None,9:None} i=0 flag=0 val=0 
+ 
+def insert(): 
+    no = int(input("Enter number of elements you want to store in a DICTIONARY:")) 
+     
+    for i in range(no):         ele = int(input("Enter element:"))         chaining(ele) 
+         
+         
+def chaining(ele): 
+    key = ele%len(dictionary) 
+     
+    if(dictionary[key]==None): 
+dictionary[key]=ele 
+     else:         j=1         
+while(True):             if(dictionary[(key+j)%len(dictionary)] == None): 
+              dictionary[(key+j)%len(dictionary)]=ele               break             j=j+1 
+               
+             
+def search(ele):  
+   for i in range(len(dictionary)):         		if(ele == dictionary[i]): 
+            		flag=1 
+                         if flag==1:        
+print("Element is found at location:",i)               		return i 
+
+else: 
+        print("Element is not present in the dictionary!!!!")         return -1 
+         
+def delete(): 
+    val = int(input("Enter the element to delete:"))     loc = search(val)    
+ if(loc!=-1): 
+for i in range(len(dictionary)): 
+dictionary[loc]=None 
+            break     else: 
+        print("Element to be deleted is not present!!!") 
+ 
+     
+def display(): 
+    print(dictionary) 
+     
+def main():     serachval=0     while(True): 
+        print("1.INSERT VALUES INTO A DICTIONARY USING CHAINING")         print("2.SEARCH FOR AN ELEMENT IN DICTIONARY")         print("3.DELETE AN ELEMENT FROM DICTIONARY")         print("4.DISPLAY DICTIONARY")         print("5.EXIT") 
+         
+        ch = int(input("ENTER YOUR CHOICE:")) 
+     
+        if ch==1:           insert() 
+         
+        elif ch==2: 
+          searchval = int(input("Enter element to be searched!!"))             search(searchval) 
+           
+elif ch==3: 
+delete() 
+             
+        elif ch==4:             display() 
+              
+        elif ch==5:             quit()                  else: 
+          print("WRONG CHOICE ENTERED!!") 
+           
+         
+main() 

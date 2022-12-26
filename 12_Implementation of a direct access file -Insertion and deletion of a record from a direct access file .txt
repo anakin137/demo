@@ -1,0 +1,143 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+int myHash(string x)
+{
+    int n = 0,sum = 0;
+    for(int i=0;i<x.length();i++)
+        n += (int)x[i];
+    while(n>0)s
+    {
+        sum += n % 1000;
+        n /= 1000;
+    }
+    int last = sum%10,first = 0;
+    int temp = sum/10;
+    while(temp>0)
+    {
+        first = temp;
+        temp=temp/10;
+    }
+    return first*10+last ;
+}
+void directStore(int hash, string data)
+{
+    string d,allData;
+    ifstream infile;
+    infile.open("dsa.txt");
+    while(getline(infile,d))
+        allData += d;
+    infile.close();
+    ofstream f;
+    f.open("dsa.txt");
+    if(allData.length()>(10*hash))
+    {
+        string x = allData.substr(0,(10*hash));
+        string y = allData.substr((10*hash)+10); 
+        allData = x+data+y;
+        f<<allData;  
+    }
+    else
+    {
+        f<<allData;
+        f.seekp((10*hash),ios::beg);
+        f<<data;
+    }
+    f.close();
+}
+int directSearch(string data)
+{
+    int hash = myHash(data);
+    string d,allData;
+    ifstream infile;
+    infile.open("dsa.txt");
+    while(getline(infile,d))
+        allData += d;
+    infile.close();
+    if(10*hash<=allData.length())
+    {
+        if(allData.substr((10*hash),10) == data)
+        {
+            cout<<"The data "<<data<<" is present at hash address "<<hash<<endl;
+            return 1;
+        }
+        else
+        {
+            cout<<"The Data to BE DELETED is not present in the Direct Access File."<<endl;
+            return 0;
+        }
+    }
+    else
+    {
+        cout<<"The Data to BE DELETED is not present in the Direct Access File."<<endl;
+        return 0;
+    }
+}
+void directDelete(string data)
+{
+    int hash = myHash(data);
+    string d,allData;
+    ifstream infile;
+    infile.open("dsa.txt");
+    while(getline(infile,d))
+        allData += d;
+    infile.close();
+    ofstream f;
+    f.open("dsa.txt");
+    if(allData.length()>(10*hash))
+    {
+        string x = allData.substr(0,(10*hash)-1);
+        string y = allData.substr((10*hash)+10); 
+        allData = x+"          "+y;
+        f<<allData;  
+    }
+    else
+        cout<<"The Data to BE DELETED is not present in the Direct Access File."<<endl;
+    f.close();
+}
+int main()
+{
+    while(1)
+    {
+        int ch;
+        cout<<"Enter 1-Insert in Direct Access File | 2-Search | 3-Delete | 0-EXIT : "<<endl;
+        cin>>ch;
+        string x;
+        if(ch==1||ch==2||ch==3)
+        {
+            string arr[] = {"Inserted","Searched","Deleted"};
+            cout<<"Enter String Data to be "<<arr[ch-1]<<" : "<<endl;
+            cin.get();
+            getline(cin,x);
+            if(x.length()>=10)
+                x = x.substr(0,10);
+            else
+            {
+                while(x.length()<10)
+                    x +=" ";
+            }
+            if(ch==1)
+            {
+                int hash = myHash(x);
+                directStore(hash,x);
+            }
+            else if(ch==2)
+            {
+                int y = directSearch(x);
+            }
+            else if(ch==3)
+            {
+                int y = directSearch(x);
+                if(y==1)
+                    directDelete(x);
+            }
+        }
+        else if(ch==0)
+        {
+            cout<<"EXITING."<<endl;
+            break;
+        }
+    }
+    return 0;
+}

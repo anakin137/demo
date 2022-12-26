@@ -1,0 +1,48 @@
+hash_table = [[] for i in range(10)]
+
+
+def display_function(hash_table):
+    for i in range(len(hash_table)):
+        print(i,end = "")
+          
+        for j in hash_table[i]:
+            print("", end = " ")
+            print(j, end = "")
+              
+        print()
+
+#def hash_function(key):
+#   return key%10
+
+
+def insert(hash_table,key , key_value):
+    
+    
+    
+    index = hash_function(hash_table,key)
+    hash_table[index] = key_value
+    
+def hash_function(hash_table,key) :
+        
+        # Hash function h(x) = x%10
+        index = key%10 
+        
+        if hash_table[index] == [] :
+            return index
+        else :
+            
+            # Implementing linear probing
+            while hash_table[index] != [] :
+                index = (index+1)%10
+                
+            return index   
+    
+
+
+num = int(input("Enter the no of clients : "))
+for i in range(num):
+	telephone_no = int(input("Enter the telephone no of client "))
+	name = input("Enter the name of the client ")
+	insert(hash_table,telephone_no,name)
+
+display_function(hash_table)
